@@ -1,0 +1,48 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+	<body onmousedown = "SendPostRequestOptions(event)">
+	<font color="white">
+	<div class="any">
+    <h1> You are logged into your account.	</h1><br>
+    <h2> What would you like to do? <h2><br>
+
+	<h4>1. To compose an email say Compose</h4><br>
+	<h4>2. To open Inbox folder say Inbox</h4><br>
+	<h4>3. To open Sent folder say Sent</h4><br>
+	<h4>4. To open Trash folder say Trash</h4><br>
+	<h4>5. To Logout say Logout</h4><br>
+	
+	
+	<script>
+	function SendPostRequestOptions(event){
+		$.ajax({
+        url: "{% url 'homepage:options' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'compose'){
+				window.location = "{% url 'homepage:compose' %}";
+			}
+			else if(data.result == 'sent'){
+				window.location = "{% url 'homepage:sent' %}";
+			}	
+			else if(data.result == 'inbox'){
+				window.location = "{% url 'homepage:inbox' %}";
+			}
+			else if(data.result == 'trash'){
+				window.location = "{% url 'homepage:trash' %}";
+			}
+			else if(data.result == 'logout'){
+				window.location = "{% url 'homepage:login' %}";
+			}
+			else if(data.result == 'failure'){
+				window.location = "{% url 'homepage:options' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+	<body onmousedown = "SendPostRequestTrash(event)">
+	<font color="white">
+	<div class="any">
+	<h1> You have reached your Trash folder. </h1><br>
+	<h4>1. To search for a specific email say Search</h4><br>
+	<h4>2. To go back to the options page say Back</h4><br>
+	<h4>3. To Logout say Logout</h4><br>
+
+	<script>
+	function SendPostRequestTrash(event){
+		$.ajax({
+        url: "{% url 'homepage:trash' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'success'){
+				window.location = "{% url 'homepage:options' %}";
+			}
+			else if(data.result == 'logout'){
+				window.location = "{% url 'homepage:login' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}

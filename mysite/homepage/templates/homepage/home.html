@@ -1,0 +1,53 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <body onmousedown = "SendPostRequestHome(event)">
+	<font color="white">
+	<div class="any">
+	<center>
+	<br><b><u><h1 class="display-3 font-weight-bold"> Welcome To Our Voice Based Email Portal! </h1> 
+	</u></b><br>
+	<br><br><h1 class="display-4" >Our Team :</h1><br>
+	<ul style="list-style-type:none; font-size:24px;">
+	<li>RASHI DIXIT</li>
+	<li>SHRADHA AGARWAL</li>
+	<li>SHREYA MADAAN</li>
+	<li>SHORYA KAUSHIK</li>
+	</ul>
+	<br><br><br>
+	<h1 class="display-2 font-weight-bold" style="font-size:30px;">Let's Start ...</h1>
+	</center>
+	</font>
+	<!--<div class="page">
+		<h2>Log In</h2>
+		<form class="site-form" action="{% url 'homepage:login' %}" method="post">
+			{% csrf_token %}
+			{% for field in form %}
+				<div class="col-sm-6">
+					{{ field.label_tag }} - {{ field }}
+				</div>
+			{% endfor %}
+			<input type="submit" value="Login">
+		</form>
+	</div>-->
+	
+	<script>
+	function SendPostRequestHome(event){
+		$.ajax({
+        url: "{% url 'homepage:login' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+		
+			if(data.result == 'success'){
+				window.location = "{% url 'homepage:options' %}";
+			}
+			else if(data.result == 'failure'){
+				window.location = "{% url 'homepage:login' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}
